@@ -135,7 +135,7 @@ app.get("/", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Dashboard đang chạy tại`);
+  console.log("Dashboard đang chạy tại");
 });
 
 bot.login(process.env.DISCORD_TOKEN);
