@@ -1,10 +1,12 @@
 const readline = require('readline');
-readline.emitKeypressEvents(process.stdin);
-process.stdin.setRawMode(true);
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  terminal: false
+});
 
 const width = 40;
 const height = 20;
-let birdX = 10;
 let birdY = Math.floor(height / 2);
 let score = 0;
 let gameover = false;
@@ -14,7 +16,7 @@ function drawScreen() {
   process.stdout.write('\x1Bc');
   for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
-      if (y === birdY && x === birdX) {
+      if (y === birdY && x === 10) {
         process.stdout.write('O');
       } else if (x === width - 1) {
         process.stdout.write('|');
@@ -30,8 +32,8 @@ function drawScreen() {
 }
 
 // Hàm xử lý input từ bàn phím
-function handleInput(key) {
-  if (key === 'w' && birdY > 0) {
+function handleInput(line) {
+  if (line === 'w' && birdY > 0) {
     birdY--;
   }
 }
@@ -56,8 +58,8 @@ function runGameLoop() {
 }
 
 // Bắt sự kiện nhấn phím
-process.stdin.on('keypress', (_, key) => {
-  handleInput(key.name);
+rl.on('line', (line) => {
+  handleInput(line);
 });
 
 // Hàm chạy game
