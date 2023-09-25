@@ -1,74 +1,38 @@
-const readline = require('readline');
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-  terminal: false
-});
+document.addEventListener('DOMContentLoaded', () => {
+  const bird = document.getElementById('bird');
+  const gameContainer = document.getElementById('game-container');
+  const scoreElement = document.getElementById('score');
 
-const width = 40;
-const height = 20;
-let birdY = Math.floor(height / 2);
-let score = 0;
-let gameover = false;
+  let birdTop = 220;
+  let score = 0;
+  let isGameOver = false;
 
-// Hàm vẽ màn hình
-function drawScreen() {
-  process.stdout.write('\x1Bc');
-  for (let y = 0; y < height; y++) {
-    for (let x = 0; x < width; x++) {
-      if (y === birdY && x === 10) {
-        process.stdout.write('O');
-      } else if (x === width - 1) {
-        process.stdout.write('|');
-      } else if (y === height - 1) {
-        process.stdout.write('_');
-      } else {
-        process.stdout.write(' ');
-      }
+  function jump() {
+    if (birdTop > 20) {
+      birdTop -= 40;
     }
-    process.stdout.write('\n');
   }
-  process.stdout.write(`Score: ${score}\n`);
-}
 
-// Hàm xử lý input từ bàn phím
-function handleInput(line) {
-  if (line === 'w' && birdY > 0) {
-    birdY--;
+  function startGame() {
+    if (isGameOver) return;
+
+    bird.style.top = birdTop + 'px';
+    birdTop += 2;
+
+    if (birdTop > gameContainer.clientHeight - 40) {
+      gameOver();
+    }
+
+    scoreElement.innerText = 'Score: ' + score;
+
+    requestAnimationFrame(startGame);
   }
-}
 
-// Hàm cập nhật trạng thái game
-function updateGame() {
-  if (birdY < height - 1) {
-    birdY++;
-    score++;
-  } else {
-    gameover = true;
+  function gameOver() {
+    isGameOver = true;
+    scoreElement.innerText = 'Game Over';
   }
-}
 
-// Hàm chạy game
-function runGameLoop() {
-  drawScreen();
-  if (gameover) {
-    process.stdout.write('Game Over\n');
-    process.exit();
-  }
-}
-
-// Bắt sự kiện nhấn phím
-rl.on('line', (line) => {
-  handleInput(line);
+  document.addEventListener('keydown', jump);
+  startGame();
 });
-
-// Hàm chạy game
-function startGame() {
-  setInterval(() => {
-    updateGame();
-    runGameLoop();
-  }, 100);
-}
-
-// Bắt đầu game
-startGame();
