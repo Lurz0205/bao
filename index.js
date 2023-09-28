@@ -8,7 +8,7 @@ const port = 3000;
 const spotifyApi = new SpotifyWebApi({
   clientId: '40c5ee08678d4e60aef46bedc6761fd4',
   clientSecret: '2e8ef57a93454b31b035569f64fea7c8',
-  redirectUri: 'http://localhost:3000/callback' // URL chuyển hướng sau khi xác thực
+  redirectUri: 'http://bao-lofimusic.onrender.com/callback' // URL chuyển hướng sau khi xác thực
 });
 
 // Đăng nhập Spotify
