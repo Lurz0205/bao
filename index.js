@@ -57,7 +57,7 @@ io.on('connection', socket => {
 app.get('/search', (req, res) => {
   const query = req.query.q;
 
-  search({ key: 'YOUR_YOUTUBE_API_KEY', term: query }, (videos) => {
+  search({ key: 'AIzaSyDzPVZplXhVhGdZ0IqdFffLdmZ8CCISq1M', term: query }, (videos) => {
     res.json(videos);
   });
 });
